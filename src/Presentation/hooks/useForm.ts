@@ -66,9 +66,19 @@ export const useForm = (initialState: TFormState) => {
       }
     })
   }
+  const validateForm = () => {
+    let isValid = true
+    Object.keys(state).forEach((key) => {
+      if (!state[key].isFormValid) {
+        isValid = false
+      }
+    })
+    return isValid
+  }
 
   return {
     formState: state,
-    onChange
+    onChange,
+    isFormValid: validateForm()
   }
 }
