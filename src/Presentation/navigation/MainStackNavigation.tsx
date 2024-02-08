@@ -1,8 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LogIn from '../screens/auth/login/LogIn'
+import Register from '../screens/auth/register/Register'
 
 export type TMainStackNavigationParamlist = {
   LogIn: undefined
+  Register: undefined
 }
 
 const Stack = createNativeStackNavigator<TMainStackNavigationParamlist>()
@@ -23,6 +25,13 @@ const MainStackNavigation = () => {
         component={LogIn}
         options={{
           title: 'Inicio de Sesión'
+        }}
+      />
+      <Stack.Screen
+        name='Register'
+        component={Register}
+        options={{
+          title: 'Crear Cuenta'
         }}
       />
     </Stack.Navigator>

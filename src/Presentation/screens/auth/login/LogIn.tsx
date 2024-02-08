@@ -1,7 +1,9 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Input, { IOnBlur, IOnChangeProps, IOnFocus } from '../../../components/input'
 import { TFormState, useForm } from '../../../hooks/useForm'
 import { parseData } from '../../../libs/parseData'
+import { TMainStackNavigationParamlist } from '../../../navigation/MainStackNavigation'
 
 const initialState: TFormState = {
   email: {
@@ -22,7 +24,9 @@ const initialState: TFormState = {
   }
 }
 
-export default function LogIn () {
+interface ILoginScreenProps extends NativeStackScreenProps<TMainStackNavigationParamlist> {}
+
+export default function LogIn ({ navigation }: ILoginScreenProps) {
   const { formState, onChange, isFormValid } = useForm(initialState)
 
   const onHandleChange = ({ name, text }: IOnChangeProps) => {
@@ -79,6 +83,9 @@ export default function LogIn () {
           <Text style={styles.titleButton}>Inica Sesión</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <Text style={styles.registerText}>Crea una Cuenta</Text>
+      </TouchableOpacity>
 
     </View>
   )
@@ -113,5 +120,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  registerText: {
+    textAlign: 'center',
+    fontSize: 13,
+    fontWeight: 'bold'
   }
 })
