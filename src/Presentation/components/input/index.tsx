@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Platform, StyleProp, Text, TextInput, TextStyle, TouchableWithoutFeedback, View, ViewStyle } from 'react-native'
 import styles from './styles'
 
 export interface IOnChangeProps {
@@ -15,16 +15,20 @@ export interface IOnFocus {
 
 export interface IInputProps {
   name: string
-  placehoder: string
+  placehoder?: string
   value: string
-  label: string
+  label?: string
   error: string
   hasError: boolean
   active: boolean
-  secureTextEntry: boolean
+  secureTextEntry?: boolean
   onChange: ({ name, text }: IOnChangeProps) => void
   onFocus: ({ name }: IOnFocus) => void
   onBlur: ({ name }: IOnBlur) => void
+  containerButtonStyle?: StyleProp<ViewStyle>
+  labelStyle?: StyleProp<TextStyle>
+  inputStyle?: StyleProp<TextStyle>
+  errorStyle?: StyleProp<TextStyle>
 }
 
 const Input = ({
@@ -38,7 +42,11 @@ const Input = ({
   hasError,
   error,
   active,
-  secureTextEntry
+  secureTextEntry,
+  containerButtonStyle,
+  labelStyle,
+  inputStyle,
+  errorStyle
 }: IInputProps) => {
   return (
     <KeyboardAvoidingView
@@ -46,24 +54,41 @@ const Input = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={[styles.containerInput]}>
-          <Text style={[styles.label]}>{label}</Text>
-          <TextInput
-            placeholder={placehoder}
-            value={value}
-            onChangeText={(text) => onChange({ name, text })}
-            onFocus={() => onFocus({ name })}
-            onBlur={() => onBlur({ name })}
-            style={[styles.input]}
-            secureTextEntry={secureTextEntry}
-          />
-          {
+        <View style={[
+          styles.containerInput,
+          containerButtonStyle
+        ]}
+        >
+          <View>
+            <Text style={[
+              styles.label,
+              labelStyle
+            ]}
+            >{label}
+            </Text>
+            <TextInput
+              placeholder={placehoder}
+              value={value}
+              onChangeText={(text) => onChange({ name, text })}
+              onFocus={() => onFocus({ name })}
+              onBlur={() => onBlur({ name })}
+              style={[
+                styles.input,
+                inputStyle
+              ]}
+              secureTextEntry={secureTextEntry}
+            />
+            {
         hasError
           ? (
-            <Text style={[styles.error]}>{error}</Text>
+            <Text style={[styles.error, errorStyle]}>{error}</Text>
             )
           : null
       }
+          </View>
+          <View>
+            <Text>Icon</Text>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
